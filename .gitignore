@@ -9,3 +9,10 @@ env/
 .streamlit/secrets.toml
 .DS_Store
 *.log
+*.png
+*.jpg
+*.jpeg
+
+# Large data & model files (too big for GitHub)
+*.pkl
+*.csv
