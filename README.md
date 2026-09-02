@@ -1,53 +1,126 @@
-# Movie Recommender System
+# 🎬 Movie Recommender System
 
-A Streamlit movie recommender that uses a pre-trained similarity model to find similar movies and fetches their posters from The Movie Database (TMDB).
+A **content-based Movie Recommender System** built with Python and Streamlit that recommends movies similar to a movie selected by the user.
 
-## Features
+The system uses movie metadata such as **genres, keywords, cast, crew, and overview** to calculate similarity between movies. Recommended movies are displayed with their posters using the **TMDB API**.
 
-- Search and select a movie from the dataset.
-- Choose 5, 10, or 15 recommendations.
-- Display poster images when TMDB is available.
-- Continue working when a poster cannot be fetched.
+![App Interface](interface_strreamlit.png)
 
-## Requirements
+---
 
-- Python 3.10 or newer
-- A TMDB API key for poster images
+## 📌 Project Overview
 
-## Setup
+Finding a good movie to watch can be difficult when there are thousands of options available.
 
-Create and activate a virtual environment, then install dependencies:
+This project solves that problem by recommending movies based on the characteristics of a movie the user already likes.
 
+---
+
+## ✨ Features
+
+- 🔍 Search and select any movie from 5000+ movies
+- 🎯 Choose how many recommendations you want (5–20)
+- 🖼️ Displays movie posters fetched from the TMDB API
+- ⚡ Fast recommendations using precomputed similarity matrix
+- 🛡️ Graceful fallback if poster cannot be fetched
+
+---
+
+## 🛠️ Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| Python | Core language |
+| Streamlit | Web UI |
+| Scikit-learn | Cosine similarity |
+| Pandas / NumPy | Data processing |
+| TMDB API | Movie poster images |
+| python-dotenv | Secure API key loading |
+
+---
+
+## 📂 Project Structure
+
+```
+Movie-Recommender-System/
+│
+├── app.py                    # Main Streamlit application
+├── recommender_model.ipynb   # ML notebook (data processing + model)
+├── requirements.txt          # Python dependencies
+├── .env.example              # API key template
+├── .gitignore                # Files excluded from Git
+└── README.md                 # Project documentation
+```
+
+> **Note:** `movie_list.pkl`, `similarity.pkl`, and the CSV dataset files are NOT included in this repo due to size limits. See the **Setup** section below to generate them.
+
+---
+
+## ⚙️ Setup & Installation
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Kartikxm07/Movie-Recommender-System.git
+cd Movie-Recommender-System
+```
+
+### 2. Create a virtual environment
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in this folder and add your TMDB key as an environment variable. On PowerShell:
+### 3. Download the dataset
+Download the TMDB 5000 Movie Dataset from Kaggle:
+👉 https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata
 
+Place both CSV files in the project root:
+- `tmdb_5000_movies.csv`
+- `tmdb_5000_credits.csv`
+
+### 4. Generate the model files
+Run all cells in `recommender_model.ipynb` to generate:
+- `movie_list.pkl`
+- `similarity.pkl`
+
+### 5. Add your TMDB API key
+Get a free API key from: https://www.themoviedb.org/settings/api
+
+Copy the example file and add your key:
 ```powershell
-$env:TMDB_API_KEY = "your_tmdb_api_key_here"
+copy .env.example .env
+```
+Then edit `.env`:
+```
+TMDB_API_KEY=your_actual_api_key_here
 ```
 
-The application still runs without the key, but posters will show as unavailable.
-
-## Run
-
+### 6. Run the app
 ```powershell
 streamlit run app.py
 ```
 
-Open the local URL shown by Streamlit in your browser.
+Open the local URL shown in the terminal (usually http://localhost:8501).
 
-## Project Files
+---
 
-- `app.py`: Streamlit application.
-- `movie_list.pkl`: Movie data used by the recommender.
-- `similarity.pkl`: Pre-computed similarity matrix.
-- `recommender_model.ipynb`: Notebook used to develop the model.
-- `tmdb_5000_movies.csv` and `tmdb_5000_credits.csv`: Source datasets.
+## 🖥️ How It Works
 
-## GitHub
+1. Movie metadata (genres, keywords, cast, crew, overview) is combined into **tags**
+2. Tags are vectorized using **CountVectorizer**
+3. **Cosine similarity** is computed between all movie pairs
+4. When you select a movie, the top N most similar movies are returned
+5. Poster images are fetched live from the **TMDB API**
 
-Do not commit API keys. The `.gitignore` file excludes `.env`; use `.env.example` as a template.
+---
+
+## 📸 Interface Preview
+
+![Movie Recommender Interface](interface_strreamlit.png)
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
