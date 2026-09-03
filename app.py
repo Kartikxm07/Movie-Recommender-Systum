@@ -2,11 +2,14 @@ import pickle
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
 import streamlit as st
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+project_dir = Path(__file__).resolve().parent
+load_dotenv(project_dir / '.env')
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
 @st.cache_resource
@@ -71,10 +74,19 @@ def recommend(movie, recommendation_count):
 
 
 st.header('Movie Recommender System')
-project_dir = Path(__file__).resolve().parent
-with open(project_dir / 'movie_list.pkl', 'rb') as movie_file:
+movie_list_path = project_dir / 'movie_list.pkl'
+similarity_path = project_dir / 'similarity.pkl'
+missing_files = [path.name for path in (movie_list_path, similarity_path) if not path.exists()]
+if missing_files:
+    st.error(
+        'Missing model file(s): {}. Run all cells in recommender_model.ipynb '
+        'after placing the TMDB CSV files in this folder.'.format(', '.join(missing_files))
+    )
+    st.stop()
+
+with open(movie_list_path, 'rb') as movie_file:
     movies = pickle.load(movie_file)
-with open(project_dir / 'similarity.pkl', 'rb') as similarity_file:
+with open(similarity_path, 'rb') as similarity_file:
     similarity = pickle.load(similarity_file)
 
 movie_list = movies['title'].values
