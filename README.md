@@ -4,7 +4,7 @@ A **content-based Movie Recommender System** built with Python and Streamlit tha
 
 The system uses movie metadata such as **genres, keywords, cast, crew, and overview** to calculate similarity between movies. Recommended movies are displayed with their posters using the **TMDB API**.
 
-![App Interface](interface_strreamlit.png)
+
 
 ---
 
@@ -84,24 +84,6 @@ Run all cells in `recommender_model.ipynb` to generate:
 - `movie_list.pkl`
 - `similarity.pkl`
 
-### 5. Add your TMDB API key
-Get a free API key from: https://www.themoviedb.org/settings/api
-
-Copy the example file and add your key:
-```powershell
-copy .env.example .env
-```
-Then edit `.env`:
-```
-TMDB_API_KEY=your_actual_api_key_here
-```
-
-### 6. Run the app
-```powershell
-streamlit run app.py
-```
-
-Open the local URL shown in the terminal (usually http://localhost:8501).
 
 ---
 
@@ -112,12 +94,6 @@ Open the local URL shown in the terminal (usually http://localhost:8501).
 3. **Cosine similarity** is computed between all movie pairs
 4. When you select a movie, the top N most similar movies are returned
 5. Poster images are fetched live from the **TMDB API**
-
----
-
-## 📸 Interface Preview
-
-![Movie Recommender Interface](interface_strreamlit.png)
 
 ---
 
